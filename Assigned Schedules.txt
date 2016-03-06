@@ -1,0 +1,8 @@
+PEARL SANTOS
+- Shortest Job First - non-preemptive
+- Shortest Remaining Time First, SJF Preemptive
+
+EJ VILLADAREZ
+- Queue
+- Priority
+- Fat Bird
