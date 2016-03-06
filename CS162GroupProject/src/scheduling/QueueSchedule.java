@@ -17,18 +17,19 @@ public class QueueSchedule implements Schedulers {
     private String blocks;
 
     public QueueSchedule(ArrayList<Process> processes) {
-       //Assumption: processes are sorted by arrivalTime
+        //Assumption: processes are sorted by arrivalTime
         blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         int i = 0;
         while (i < processes.size()) {
             Process p = processes.get(i);
-            if (totalTimeElapsed == p.arrivalTime) {
+            if (totalTimeElapsed >= p.arrivalTime) {
                 blocks += Integer.toString(totalTimeElapsed) + " " + p.index + " " + p.burstTime + "X\n";
                 i++;
                 totalTimeElapsed += p.burstTime;
+            } else {
+                ++totalTimeElapsed;
             }
-            totalTimeElapsed += 1;
         }
 
     }
