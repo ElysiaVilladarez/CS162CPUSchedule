@@ -32,8 +32,9 @@ public class Main {
                 processes.add(p);
             }
             Collections.sort(processes, Process.arrivalTimeCompare);
-            QueueSchedule que = new QueueSchedule(processes);
-            System.out.println(que.getBlock());
+            PrioritySchedule que = new PrioritySchedule(processes);
+            results+=que.getBlocks();
+            System.out.println(results);
         }
     }
 }

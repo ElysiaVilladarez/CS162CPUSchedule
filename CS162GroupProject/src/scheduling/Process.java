@@ -32,4 +32,17 @@ public class Process {
         }
         
     };
+    
+    public static Comparator<Process> priorityCompare = new Comparator<Process>(){
+
+        @Override
+        public int compare(Process o1, Process o2) {
+            int pri1 = o1.priority;
+            int pri2 = o2.priority;
+            
+            return pri1-pri2;
+        }
+        
+    };
+    
 }

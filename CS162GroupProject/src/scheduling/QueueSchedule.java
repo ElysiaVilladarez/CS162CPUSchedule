@@ -12,30 +12,28 @@ import java.util.Queue;
  *
  * @author elysi
  */
-public class QueueSchedule {
+public class QueueSchedule implements Schedulers {
 
-    private ArrayList<Process> processes;
     private String blocks;
 
     public QueueSchedule(ArrayList<Process> processes) {
-        this.processes = processes;
-
+       //Assumption: processes are sorted by arrivalTime
         blocks = "";
-        int totalTimeElapsed = 0;
+        int totalTimeElapsed = processes.get(0).arrivalTime;
         int i = 0;
-        while(i<processes.size()) {
+        while (i < processes.size()) {
             Process p = processes.get(i);
-            totalTimeElapsed += 1;
             if (totalTimeElapsed == p.arrivalTime) {
                 blocks += Integer.toString(totalTimeElapsed) + " " + p.index + " " + p.burstTime + "X\n";
                 i++;
                 totalTimeElapsed += p.burstTime;
             }
+            totalTimeElapsed += 1;
         }
 
     }
 
-    public String getBlock() {
+    public String getBlocks() {
         return blocks;
     }
 }
