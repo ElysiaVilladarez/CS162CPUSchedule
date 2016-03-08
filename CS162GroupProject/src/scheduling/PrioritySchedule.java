@@ -6,58 +6,57 @@ import java.util.Collections;
 public class PrioritySchedule implements Schedulers {
 
     private String blocks;
+    Process current;
+//    boolean first = true;
+    int originalBT;
+    ArrayList<Process> arrived = new ArrayList<>();
 
     public PrioritySchedule(ArrayList<Process> processes) {
         //Assumption: processes are sorted by arrivalTime
         blocks = "";
-        ArrayList<Process> arrived = new ArrayList<>();
         int totalTimeElapsed = processes.get(0).arrivalTime;
-        Process current = null;
         boolean hasBeenAdded = false;
-        boolean first = true;
-        int originalBT = 0;
+
+        //First process
+        current = processes.get(0);
+        processes.remove(0);
+        originalBT = current.burstTime;
 
         while (true) {
-
             if (!processes.isEmpty()) {
                 if (totalTimeElapsed >= processes.get(0).arrivalTime) {
-                    Process arr = processes.get(0);
-                    arrived.add(arr);
+                    arrived.add(processes.get(0));
                     processes.remove(0);
                     hasBeenAdded = true;
                     Collections.sort(arrived, Process.priorityCompare);
                 }
             }
 
-            if (first && hasBeenAdded) {
-                current = arrived.get(0);
-                originalBT = current.burstTime;
-                arrived.remove(0);
-                hasBeenAdded = false;
-                first = false;
-            }
+//            if (first && hasBeenAdded) {
+//                current = arrived.get(0);
+//                originalBT = current.burstTime;
+//                arrived.remove(0);
+//                hasBeenAdded = false;
+//                first = false;
+//            }
 
             if (current != null) {
                 if (current.burstTime == 0) {
                     blocks += Integer.toString(totalTimeElapsed - (originalBT - current.burstTime)) + " " + current.index + " " + (originalBT - current.burstTime) + "X\n";
                     if (arrived.isEmpty() && processes.isEmpty()) {
                         break;
+                    } else if (arrived.isEmpty()) {
+                        current = null;
                     } else {
-                        current = arrived.get(0);
-                        originalBT = current.burstTime;
-                        arrived.remove(arrived.get(0));
-                        --current.burstTime;
+                        setCurrentProcess();
+                        hasBeenAdded = false;
                     }
                 } else {
-
                     if (hasBeenAdded) {
                         if (current.priority > arrived.get(0).priority) {
                             blocks += Integer.toString(totalTimeElapsed - (originalBT - current.burstTime)) + " " + current.index + " " + (originalBT - current.burstTime) + "\n";
                             arrived.add(current);
-                            current = arrived.get(0);
-                            originalBT = current.burstTime;
-                            arrived.remove(arrived.get(0));
-                            --current.burstTime;
+                            setCurrentProcess();
                             Collections.sort(arrived, Process.priorityCompare);
                         } else {
                             --current.burstTime;
@@ -66,11 +65,24 @@ public class PrioritySchedule implements Schedulers {
                     } else {
                         --current.burstTime;
                     }
+
                 }
+            } else if (hasBeenAdded) {
+                setCurrentProcess();
+                hasBeenAdded = false;
             }
-            totalTimeElapsed += 1;
+            ++totalTimeElapsed;
+
+
         }
 
+    }
+
+    public void setCurrentProcess() {
+        current = arrived.get(0);
+        originalBT = current.burstTime;
+        arrived.remove(0);
+        --current.burstTime;
     }
 
     @Override
