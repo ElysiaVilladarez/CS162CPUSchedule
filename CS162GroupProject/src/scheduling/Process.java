@@ -21,6 +21,10 @@ public class Process {
         index = i;
     }
     
+    public void setBurstTime(int newBt){
+        burstTime = newBt;
+    }
+    
     public static Comparator<Process> arrivalTimeCompare = new Comparator<Process>(){
 
         @Override
@@ -39,6 +43,18 @@ public class Process {
         public int compare(Process o1, Process o2) {
             int pri1 = o1.priority;
             int pri2 = o2.priority;
+            
+            return pri1-pri2;
+        }
+        
+    };
+    
+    public static Comparator<Process> burstTimeCompare = new Comparator<Process>(){
+
+        @Override
+        public int compare(Process o1, Process o2) {
+            int pri1 = o1.burstTime;
+            int pri2 = o2.burstTime;
             
             return pri1-pri2;
         }
