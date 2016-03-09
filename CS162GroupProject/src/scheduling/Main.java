@@ -32,22 +32,27 @@ public class Main {
             br = new BufferedReader(new FileReader(filePath));
             int testCase = Integer.parseInt(br.readLine());
             for (int test = 1; test <= testCase; test++) {
-                System.out.println("1st ForLOOp " + test);
                 String[] line2 = br.readLine().split(" ");
                 int processesNum = Integer.parseInt(line2[0]);
                 results += Integer.toString(test) + "\n";
                 String schedule = line2[1];
                 for (int i = 0; i < processesNum; i++) {
-                    System.out.println("2ndt ForLOOp" + processesNum + " " + i);
                     String[] pro = br.readLine().split(" ");
                     Process p = new Process(Integer.parseInt(pro[0]), Integer.parseInt(pro[1]), Integer.parseInt(pro[2]), i + 1);
                     processes.add(p);
                 }
                 Collections.sort(processes, Process.arrivalTimeCompare);
+
                 SchedulerFactory sf = new SchedulerFactory();
-                Schedulers use = sf.schedule(schedule, processes);
+                Schedulers use = null;
+                if (schedule.trim().equals("RR")) {
+                    use = new RoundRobinSchedule(processes, Integer.parseInt(line2[2]));
+                } else {
+                    use = sf.schedule(schedule, processes);
+                }
                 results += use.getBlocks();
-                System.out.println(results);
+                System.out.print(results);
+                results = "";
 
             }
             br.close();
