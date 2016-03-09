@@ -6,6 +6,7 @@ package scheduling;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  *
@@ -14,49 +15,53 @@ import java.util.Collections;
 public class RoundRobinSchedule implements Schedulers {
 
     private String blocks;
+    private int totalTimeElapsed;
+    private ArrayList<Process> arrived = new ArrayList<>();
 
     public RoundRobinSchedule(ArrayList<Process> processes, int timeQuantum) {
         //Assumption: processes are sorted by arrivalTime
         blocks = "";
-        ArrayList<Process> arrived = new ArrayList<>();
-        int totalTimeElapsed = processes.get(0).arrivalTime;
+        ArrayList<Process> doneMyTime = new ArrayList<>();
+        totalTimeElapsed = processes.get(0).arrivalTime;
         Process current = processes.get(0);
+        Process store = null;
         int originalBT = current.burstTime;
         processes.remove(0);
         
 
         while (true){
-            if (!processes.isEmpty()) {
-                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
-                    arrived.add(processes.get(0));
-                    processes.remove(0);
-                }
-            }
-
+            checkArrival(processes);
             if(current!=null){
-                int resourcesLeft = timeQuantum - current.burstTime;
-                if(resourcesLeft<0){
-                    current.burstTime = Math.abs(resourcesLeft);
+                int resourcesLeft = current.burstTime - timeQuantum;
+                if(resourcesLeft>0){
+                    current.burstTime = resourcesLeft;
                     blocks += Integer.toString(totalTimeElapsed) + " " + current.index + " " + (originalBT - current.burstTime) + "\n";
-                    totalTimeElapsed+=current.burstTime;
-                    processes.add(current);
+                    totalTimeElapsed+=(originalBT-current.burstTime);
+                    doneMyTime.add(current);
+                    checkArrival(processes);
+                    
                 } else{
                     current.burstTime = 0;
                     blocks += Integer.toString(totalTimeElapsed) + " " + current.index + " " + originalBT + "X\n";
                     totalTimeElapsed+=originalBT;
+                    checkArrival(processes);
                 }
                 
-                if(arrived.isEmpty() && processes.isEmpty()){
+                if(arrived.isEmpty() && processes.isEmpty() && doneMyTime.isEmpty()){
                     break;
                 } else if(arrived.isEmpty()){
-                    current = null;
+                    if(doneMyTime.isEmpty()){
+                        current = null;
+                    } else{
+                        current = doneMyTime.get(0);
+                        doneMyTime.remove(0);
+                        originalBT = current.burstTime;
+                    }
                 } else {
                     current = arrived.get(0);
                     arrived.remove(0);
                     originalBT = current.burstTime;
                 }
-                
-                
                 
             } else if (!arrived.isEmpty()){
                 current = arrived.get(0);
@@ -67,6 +72,16 @@ public class RoundRobinSchedule implements Schedulers {
             }
             
         }
+    }
+    
+    public void checkArrival(ArrayList<Process> processes){
+        if (!processes.isEmpty()) {
+                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
+                    arrived.add(processes.get(0));
+                    processes.remove(0);
+                    
+                }
+            }
     }
 
     @Override
