@@ -30,7 +30,7 @@ public class RoundRobinSchedule implements Schedulers {
         
 
         while (true){
-            checkArrival(processes);
+            
             if(current!=null){
                 int resourcesLeft = current.burstTime - timeQuantum;
                 if(resourcesLeft>0){
@@ -69,6 +69,7 @@ public class RoundRobinSchedule implements Schedulers {
                 originalBT = current.burstTime;
             } else {
                 ++totalTimeElapsed;
+                checkArrival(processes);
             }
             
         }
