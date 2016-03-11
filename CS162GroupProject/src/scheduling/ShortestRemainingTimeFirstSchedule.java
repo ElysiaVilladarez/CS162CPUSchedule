@@ -86,7 +86,7 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
             ArrayList<Process> willArrive = new ArrayList<>();
             Process p = process.get(0);
             int i = 1;
-            System.out.println(p.index);
+            //System.out.println(p.index);
 
             if (i < process.size()) {
                 p2 = process.get(i);
@@ -102,7 +102,7 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
             if (!willArrive.isEmpty()) {
                 Collections.sort(willArrive, Process.burstTimeArrTimeCompare);
                 Process q = willArrive.get(0);
-                System.out.println(q.index);
+                //System.out.println(q.index);
                 if ((p.burstTime > q.burstTime)) {
                     if (currTime > q.arrivalTime) { //both have entered
                         blocks = blocks + currTime + " " + q.index + " " + q.burstTime + "X" + "\n";
