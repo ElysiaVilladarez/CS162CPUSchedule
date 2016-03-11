@@ -59,6 +59,19 @@ public class Process {
             return pri1-pri2;
         }
         
+    
+        
+    };
+    
+    public static Comparator<Process> burstTimeArrTimeCompare = new Comparator<Process>(){
+
+        @Override
+        public int compare(Process o1, Process o2) {
+            int pri1 = o1.burstTime + o1.arrivalTime;
+            int pri2 = o2.burstTime + o2.arrivalTime;
+            
+            return pri1-pri2;
+        }
     };
     
 }
