@@ -86,7 +86,6 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
             ArrayList<Process> willArrive = new ArrayList<>();
             Process p = process.get(0);
             int i = 1;
-            //System.out.println(p.index);
 
             if (i < process.size()) {
                 p2 = process.get(i);
@@ -129,7 +128,6 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
                     process.add(0, p);
                 }
             } else {
-                System.out.println("No interruptions");
                 blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
                 currTime = currTime + p.burstTime;
                 process.remove(p);
