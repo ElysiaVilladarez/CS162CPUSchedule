@@ -28,24 +28,26 @@ public class RoundRobinSchedule implements Schedulers {
         int originalBT = current.burstTime;
         processes.remove(0);
         
+        
 
         while (true){
             
             if(current!=null){
-                int resourcesLeft = current.burstTime - timeQuantum;
-                if(resourcesLeft>0){
-                    current.burstTime = resourcesLeft;
-                    blocks += Integer.toString(totalTimeElapsed) + " " + current.index + " " + (originalBT - current.burstTime) + "\n";
-                    totalTimeElapsed+=(originalBT-current.burstTime);
+                int resourcesLeft = timeQuantum - current.burstTime;
+                if(resourcesLeft<0){
+                    current.burstTime = Math.abs(resourcesLeft);
+                    blocks += Integer.toString(totalTimeElapsed) + " " + current.index + " " + timeQuantum + "\n";
+                    totalTimeElapsed+=timeQuantum;
                     doneMyTime.add(current);
-                    checkArrival(processes);
+                        
                     
                 } else{
                     current.burstTime = 0;
                     blocks += Integer.toString(totalTimeElapsed) + " " + current.index + " " + originalBT + "X\n";
                     totalTimeElapsed+=originalBT;
-                    checkArrival(processes);
                 }
+                
+                checkArrival(processes);
                 
                 if(arrived.isEmpty() && processes.isEmpty() && doneMyTime.isEmpty()){
                     break;
