@@ -14,11 +14,8 @@ public class SchedulerFactory {
     public Schedulers schedule(String algorithm, ArrayList<Process> processes){
         
         if(algorithm.equals("FCFS")){
-            //return new QueueSchedule(processes);
-            return new ShortestJobFirstSchedule(processes);
-//            return new ShortestJobFirstSchedule(processes); 
+            return new ShortestJobFirstSchedule(processes); 
         } else{
-            //return new PrioritySchedule(processes);
             return new ShortestJobFirstSchedule(processes); 
         }
     }

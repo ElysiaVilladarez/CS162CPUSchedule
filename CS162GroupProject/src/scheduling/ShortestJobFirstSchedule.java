@@ -24,34 +24,36 @@ public class ShortestJobFirstSchedule implements Schedulers {
         currTime = process.get(0).arrivalTime;
         //int remaining = process.size();
         while(true){
-            ArrayList<Process> arrived = new ArrayList<>();
+            ArrayList<Process> willArrive = new ArrayList<>();
             if(process.isEmpty()){
                 break;
             }
             for(Process p: process){
                 if(p.arrivalTime <= currTime){
-                    arrived.add(p);
-                    
+                    willArrive.add(p);
                 }
                 else{
                     break;
                 }
-                Collections.sort(arrived, Process.burstTimeCompare);
+                
             }
-             
-            
-            //int i = 0;
-            for(Process p: arrived){
+            Collections.sort(willArrive, Process.burstTimeCompare);
+            Process p;
+            if(!willArrive.isEmpty()){
+                p = willArrive.get(0);
+            }
+            else{
+                p = process.get(0);
+            }
+                
                 blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
                 currTime = currTime + p.burstTime;
                 process.remove(p);
-            }
+                
         }
         
             
         }
-        
-        //Collections.sort(process, Process.);
     
 
     @Override
