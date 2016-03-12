@@ -32,6 +32,7 @@ public class Main {
             br = new BufferedReader(new FileReader(filePath));
             int testCase = Integer.parseInt(br.readLine());
             for (int test = 1; test <= testCase; test++) {
+                processes.clear();
                 String[] lineS = br.readLine().split(" ");
                 int processesNum = Integer.parseInt(lineS[0]);
                 results += Integer.toString(test) + "\n";
@@ -41,15 +42,12 @@ public class Main {
                     Process p = new Process(Integer.parseInt(pro[0]), Integer.parseInt(pro[1]), Integer.parseInt(pro[2]), i + 1);
                     processes.add(p);
                 }
+                
                 Collections.sort(processes, Process.arrivalTimeCompare);
-
+                
                 SchedulerFactory sf = new SchedulerFactory();
                 Schedulers use = null;
                 if (schedule.trim().equals("RR")) {
-                    System.out.println("CHECK: " + lineS[2]);
-                    for(Process a: processes){
-                        System.out.println("ARRIVAL: " + a.arrivalTime + " BURSTTIME: " + a.burstTime + " INDEX: " + a.index);
-                    }
                     use = new RoundRobinSchedule(processes, Integer.parseInt(lineS[2]));
                 } else {
                     use = sf.schedule(schedule.trim(), processes);
