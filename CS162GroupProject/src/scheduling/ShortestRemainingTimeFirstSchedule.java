@@ -23,7 +23,6 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 //    String blocks;
 //    ArrayList<Process> process; //sorted by arrival time
 //    int currTime = 0;
-
     public ShortestRemainingTimeFirstSchedule(ArrayList<Process> processes) {
 
 //        process = pr;
@@ -87,7 +86,7 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 //            }
 //        }
 
-         blocks = "";
+        blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         boolean hasBeenAdded = false;
 
@@ -98,12 +97,15 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
         while (true) {
             if (!processes.isEmpty()) {
-                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
-                    arrived.add(processes.get(0));
-                    processes.remove(0);
-                    hasBeenAdded = true;
-                    Collections.sort(arrived, Process.burstTimeCompare);
+                while(!processes.isEmpty()) {
+                    if (totalTimeElapsed >= processes.get(0).arrivalTime) {
+                        arrived.add(processes.get(0));
+                        processes.remove(0);
+                        hasBeenAdded = true;
+                    } else{ break;}
                 }
+                Collections.sort(arrived, Process.burstTimeCompare);
+                
             }
 
 //            if (first && hasBeenAdded) {
@@ -164,5 +166,4 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
     public String getBlocks() {
         return blocks;
     }
-
 }
