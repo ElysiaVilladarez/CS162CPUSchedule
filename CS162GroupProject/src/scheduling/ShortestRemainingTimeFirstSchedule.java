@@ -16,78 +16,11 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
     private String blocks;
     Process current;
-//    boolean first = true;
     int originalBT;
     ArrayList<Process> arrived = new ArrayList<>();
 
-//    String blocks;
-//    ArrayList<Process> process; //sorted by arrival time
-//    int currTime = 0;
-
     public ShortestRemainingTimeFirstSchedule(ArrayList<Process> processes) {
-
-//        process = pr;
-//        blocks = "";
-//        currTime = pr.get(0).arrivalTime;
-//        while(true){
-//            ArrayList<Process> arrived = new ArrayList<>();
-//            if(process.isEmpty()){
-//                break;
-//            }
-//            for(Process p: process){
-//                if(p.arrivalTime <= currTime){
-//                    arrived.add(p);
-//                    
-//                }
-//                else{
-//                    arrived.add(p); //adding next
-//                    break;
-//                }
-//                
-//            }
-//             //Collections.sort(arrived, Process.burstTimeCompare);
-//            
-//            //int i = 0;
-//            for(int i = 0; i < arrived.size()-1; i++){
-//                Process p = arrived.get(i);
-//                Process p2 = arrived.get(i+1);
-//                System.out.println(p.index + " + ");
-//                System.out.println(p2.index + " - ");
-//                if((currTime + p.burstTime) > p2.arrivalTime){
-//                    if(p.burstTime < p2.burstTime){
-//                        blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                        currTime = currTime + p.burstTime;
-//                        process.remove(p);
-//                        System.out.println(process.get(0).index);
-//                    }
-//                    System.out.println(p.index + " " + p2.index);
-//                    blocks = blocks + currTime + " " + p.index + " " + (p2.arrivalTime - currTime) + "\n";
-//                    p.setBurstTime(p.burstTime - p2.arrivalTime);
-//                    currTime = currTime + p2.arrivalTime;
-//                    //process.remove(p);
-//                }
-//                else{
-//                    blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                    currTime = currTime + p.burstTime;
-//                    process.remove(p);
-//                    System.out.println(process.get(0).index);
-//                }
-//                System.out.println(currTime + " curr");
-//                
-//                
-//            }
-//            System.out.println("Labas");
-//            Collections.sort(process, Process.arrivalTimeCompare);
-//            
-//            if(process.size()==1){
-//                Process p = process.get(0);
-//                blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                currTime = currTime + p.burstTime;
-//                process.remove(p);
-//            }
-//        }
-
-         blocks = "";
+ blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         boolean hasBeenAdded = false;
 
@@ -97,48 +30,15 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
         originalBT = current.burstTime;
 
         while (true) {
-/* 
-            ArrayList<Process> willArrive = new ArrayList<>();
-            Process p = process.get(0);
-            int i = 1;
-
-           //if (i < process.size()) {
-               // p2 = process.get(i);
-
-                while (i < process.size()) {
-                    if ((currTime + p.burstTime) > process.get(i).arrivalTime) {
-                        p2 = process.get(i);
-                        willArrive.add(p2);
-                    }
-                    i++;
-                    //p2 = process.get(i);
+            if (!processes.isEmpty()) {
+                while(!processes.isEmpty()) {
+                    if (totalTimeElapsed >= processes.get(0).arrivalTime) {
+                        arrived.add(processes.get(0));
+                        processes.remove(0);
+                        hasBeenAdded = true;
+                    } else{ break;}
                 }
-
-           // }
-
-            if (!willArrive.isEmpty()) {
-                Collections.sort(willArrive, Process.arrivalTimeCompare);
-                Process q = willArrive.get(0);
-//                for(Process c : willArrive){
-//                    System.out.print(c.index + " ");
-//                }
-                //System.out.println(q.index);
-                if ((p.burstTime > q.burstTime)) {
-                    if (currTime > q.arrivalTime) { //both have entered
-                        blocks = blocks + currTime + " " + q.index + " " + q.burstTime + "X" + "\n";
-                        currTime = currTime + q.burstTime;
-                        process.remove(q);
-                        //p = q;
-                        process.remove(p);
-                        process.add(0, p);
-
- */            if (!processes.isEmpty()) {
-                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
-                    arrived.add(processes.get(0));
-                    processes.remove(0);
-                    hasBeenAdded = true;
-                    Collections.sort(arrived, Process.burstTimeCompare);
-                }
+                Collections.sort(arrived, Process.burstTimeCompare);
             }
 
 //            if (first && hasBeenAdded) {
@@ -176,12 +76,6 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
                     }
 
                 }
-//<<<<<<< HEAD
-//            } else {
-//                blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                currTime = currTime + p.burstTime;
-//                process.remove(p);
-//=======
             } else if (hasBeenAdded) {
                 setCurrentProcess();
                 hasBeenAdded = false;
@@ -190,9 +84,9 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
 
         }
+
     }
 
-    //Collections.sort(process, Process.);
     public void setCurrentProcess() {
         current = arrived.get(0);
         originalBT = current.burstTime;
@@ -205,5 +99,4 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
     public String getBlocks() {
         return blocks;
     }
-
 }

@@ -24,12 +24,14 @@ public class PrioritySchedule implements Schedulers {
 
         while (true) {
             if (!processes.isEmpty()) {
-                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
-                    arrived.add(processes.get(0));
-                    processes.remove(0);
-                    hasBeenAdded = true;
-                    Collections.sort(arrived, Process.priorityCompare);
+                while(!processes.isEmpty()) {
+                    if (totalTimeElapsed >= processes.get(0).arrivalTime) {
+                        arrived.add(processes.get(0));
+                        processes.remove(0);
+                        hasBeenAdded = true;
+                    } else{ break;}
                 }
+                Collections.sort(arrived, Process.priorityCompare);
             }
 
 //            if (first && hasBeenAdded) {
