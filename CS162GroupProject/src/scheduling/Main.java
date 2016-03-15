@@ -26,12 +26,14 @@ public class Main {
         String results = "";
 
         BufferedReader br = null;
-        String filePath = "TestFile.txt";
+        String filePath = "SRTFInput.txt";
+        
 
         try {
             br = new BufferedReader(new FileReader(filePath));
             int testCase = Integer.parseInt(br.readLine());
             for (int test = 1; test <= testCase; test++) {
+                processes.clear();
                 String[] line2 = br.readLine().split(" ");
                 int processesNum = Integer.parseInt(line2[0]);
                 results += Integer.toString(test) + "\n";

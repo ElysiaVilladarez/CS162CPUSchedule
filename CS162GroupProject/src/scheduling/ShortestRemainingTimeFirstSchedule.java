@@ -87,20 +87,26 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
             Process p = process.get(0);
             int i = 1;
 
-            if (i < process.size()) {
-                p2 = process.get(i);
+           //if (i < process.size()) {
+               // p2 = process.get(i);
 
-                while (((currTime + p.burstTime) > p2.arrivalTime) && i < process.size()) {
-                    p2 = process.get(i);
-                    willArrive.add(p2);
+                while (i < process.size()) {
+                    if ((currTime + p.burstTime) > process.get(i).arrivalTime) {
+                        p2 = process.get(i);
+                        willArrive.add(p2);
+                    }
                     i++;
+                    //p2 = process.get(i);
                 }
 
-            }
+           // }
 
             if (!willArrive.isEmpty()) {
-                Collections.sort(willArrive, Process.burstTimeArrTimeCompare);
+                Collections.sort(willArrive, Process.arrivalTimeCompare);
                 Process q = willArrive.get(0);
+//                for(Process c : willArrive){
+//                    System.out.print(c.index + " ");
+//                }
                 //System.out.println(q.index);
                 if ((p.burstTime > q.burstTime)) {
                     if (currTime > q.arrivalTime) { //both have entered
