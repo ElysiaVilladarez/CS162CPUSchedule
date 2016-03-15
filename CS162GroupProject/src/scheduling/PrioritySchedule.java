@@ -13,6 +13,7 @@ public class PrioritySchedule implements Schedulers {
 
     public PrioritySchedule(ArrayList<Process> processes) {
         //Assumption: processes are sorted by arrivalTime
+        Collections.sort(processes, Process.arrivalTimeCompareP);
         blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         boolean hasBeenAdded = false;
@@ -79,7 +80,7 @@ public class PrioritySchedule implements Schedulers {
         }
 
     }
-
+    
     public void setCurrentProcess() {
         current = arrived.get(0);
         originalBT = current.burstTime;

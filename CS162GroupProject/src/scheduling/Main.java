@@ -26,7 +26,7 @@ public class Main {
         String results = "";
 
         BufferedReader br = null;
-        String filePath = "TestFile.txt";
+        String filePath = "TestFile2.txt";
         
 
         try {
