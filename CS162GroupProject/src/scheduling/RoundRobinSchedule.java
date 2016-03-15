@@ -24,7 +24,7 @@ public class RoundRobinSchedule implements Schedulers {
         ArrayList<Process> doneMyTime = new ArrayList<>();
         totalTimeElapsed = processes.get(0).arrivalTime;
         Process current = processes.get(0);
-        Process store = null;
+        //Process store = null;
         int originalBT = current.burstTime;
         processes.remove(0);
         
