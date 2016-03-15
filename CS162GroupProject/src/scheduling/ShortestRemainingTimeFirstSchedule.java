@@ -176,16 +176,15 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
                     }
 
                 }
-<<<<<<< HEAD
-            } else {
-                blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-                currTime = currTime + p.burstTime;
-                process.remove(p);
-=======
+//<<<<<<< HEAD
+//            } else {
+//                blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
+//                currTime = currTime + p.burstTime;
+//                process.remove(p);
+//=======
             } else if (hasBeenAdded) {
                 setCurrentProcess();
                 hasBeenAdded = false;
->>>>>>> 8a95d61eb2644a9d36d68588fc80e645d2a67dd4
             }
             ++totalTimeElapsed;
 
