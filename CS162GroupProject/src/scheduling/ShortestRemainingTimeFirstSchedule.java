@@ -20,7 +20,8 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
     ArrayList<Process> arrived = new ArrayList<>();
 
     public ShortestRemainingTimeFirstSchedule(ArrayList<Process> processes) {
- blocks = "";
+        Collections.sort(processes, Process.arrivalTimeCompareBT);
+        blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         boolean hasBeenAdded = false;
 
