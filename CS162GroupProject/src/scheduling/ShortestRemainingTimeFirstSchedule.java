@@ -16,77 +16,11 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
     private String blocks;
     Process current;
-//    boolean first = true;
     int originalBT;
     ArrayList<Process> arrived = new ArrayList<>();
 
-//    String blocks;
-//    ArrayList<Process> process; //sorted by arrival time
-//    int currTime = 0;
     public ShortestRemainingTimeFirstSchedule(ArrayList<Process> processes) {
-
-//        process = pr;
-//        blocks = "";
-//        currTime = pr.get(0).arrivalTime;
-//        while(true){
-//            ArrayList<Process> arrived = new ArrayList<>();
-//            if(process.isEmpty()){
-//                break;
-//            }
-//            for(Process p: process){
-//                if(p.arrivalTime <= currTime){
-//                    arrived.add(p);
-//                    
-//                }
-//                else{
-//                    arrived.add(p); //adding next
-//                    break;
-//                }
-//                
-//            }
-//             //Collections.sort(arrived, Process.burstTimeCompare);
-//            
-//            //int i = 0;
-//            for(int i = 0; i < arrived.size()-1; i++){
-//                Process p = arrived.get(i);
-//                Process p2 = arrived.get(i+1);
-//                System.out.println(p.index + " + ");
-//                System.out.println(p2.index + " - ");
-//                if((currTime + p.burstTime) > p2.arrivalTime){
-//                    if(p.burstTime < p2.burstTime){
-//                        blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                        currTime = currTime + p.burstTime;
-//                        process.remove(p);
-//                        System.out.println(process.get(0).index);
-//                    }
-//                    System.out.println(p.index + " " + p2.index);
-//                    blocks = blocks + currTime + " " + p.index + " " + (p2.arrivalTime - currTime) + "\n";
-//                    p.setBurstTime(p.burstTime - p2.arrivalTime);
-//                    currTime = currTime + p2.arrivalTime;
-//                    //process.remove(p);
-//                }
-//                else{
-//                    blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                    currTime = currTime + p.burstTime;
-//                    process.remove(p);
-//                    System.out.println(process.get(0).index);
-//                }
-//                System.out.println(currTime + " curr");
-//                
-//                
-//            }
-//            System.out.println("Labas");
-//            Collections.sort(process, Process.arrivalTimeCompare);
-//            
-//            if(process.size()==1){
-//                Process p = process.get(0);
-//                blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-//                currTime = currTime + p.burstTime;
-//                process.remove(p);
-//            }
-//        }
-
-        blocks = "";
+ blocks = "";
         int totalTimeElapsed = processes.get(0).arrivalTime;
         boolean hasBeenAdded = false;
 
@@ -105,7 +39,6 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
                     } else{ break;}
                 }
                 Collections.sort(arrived, Process.burstTimeCompare);
-                
             }
 
 //            if (first && hasBeenAdded) {
@@ -151,9 +84,9 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
 
         }
+
     }
 
-    //Collections.sort(process, Process.);
     public void setCurrentProcess() {
         current = arrived.get(0);
         originalBT = current.burstTime;
