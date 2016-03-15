@@ -14,13 +14,16 @@ public class SchedulerFactory {
     public Schedulers schedule(String algorithm, ArrayList<Process> processes){
         
         if(algorithm.equals("FCFS")){
-            //return new QueueSchedule(processes);
-            return new ShortestRemainingTimeFirstSchedule(processes);
-//            return new ShortestJobFirstSchedule(processes); 
+            return new QueueSchedule(processes); 
+        } else if (algorithm.equals("SJF")){
+            return new ShortestJobFirstSchedule(processes); 
+        } else if (algorithm.equals("SRTF")){
+            return new ShortestRemainingTimeFirstSchedule(processes); 
+        } else if (algorithm.equals("P")){
+            return new PrioritySchedule(processes); 
         } else{
-            //return new PrioritySchedule(processes);
-//            return new ShortestJobFirstSchedule(processes); 
-            return new ShortestRemainingTimeFirstSchedule(processes);
+            System.out.println("NO SUCH SCHEDULE");
+            return null;
         }
     }
 }

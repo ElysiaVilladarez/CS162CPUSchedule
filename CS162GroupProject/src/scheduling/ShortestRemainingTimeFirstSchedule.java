@@ -14,15 +14,21 @@ import java.util.Collections;
  */
 public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 
-    String blocks;
-    ArrayList<Process> process; //sorted by arrival time
-    int currTime = 0;
+    private String blocks;
+    Process current;
+//    boolean first = true;
+    int originalBT;
+    ArrayList<Process> arrived = new ArrayList<>();
 
-    public ShortestRemainingTimeFirstSchedule(ArrayList<Process> pr) {
+//    String blocks;
+//    ArrayList<Process> process; //sorted by arrival time
+//    int currTime = 0;
 
-        process = pr;
-        blocks = "";
-        currTime = pr.get(0).arrivalTime;
+    public ShortestRemainingTimeFirstSchedule(ArrayList<Process> processes) {
+
+//        process = pr;
+//        blocks = "";
+//        currTime = pr.get(0).arrivalTime;
 //        while(true){
 //            ArrayList<Process> arrived = new ArrayList<>();
 //            if(process.isEmpty()){
@@ -81,8 +87,17 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
 //            }
 //        }
 
-        Process p2;
+         blocks = "";
+        int totalTimeElapsed = processes.get(0).arrivalTime;
+        boolean hasBeenAdded = false;
+
+        //First process
+        current = processes.get(0);
+        processes.remove(0);
+        originalBT = current.burstTime;
+
         while (true) {
+/* 
             ArrayList<Process> willArrive = new ArrayList<>();
             Process p = process.get(0);
             int i = 1;
@@ -116,35 +131,74 @@ public class ShortestRemainingTimeFirstSchedule implements Schedulers {
                         //p = q;
                         process.remove(p);
                         process.add(0, p);
+
+ */            if (!processes.isEmpty()) {
+                if (totalTimeElapsed >= processes.get(0).arrivalTime) {
+                    arrived.add(processes.get(0));
+                    processes.remove(0);
+                    hasBeenAdded = true;
+                    Collections.sort(arrived, Process.burstTimeCompare);
+                }
+            }
+
+//            if (first && hasBeenAdded) {
+//                current = arrived.get(0);
+//                originalBT = current.burstTime;
+//                arrived.remove(0);
+//                hasBeenAdded = false;
+//                first = false;
+//            }
+
+            if (current != null) {
+                if (current.burstTime == 0) {
+                    blocks += Integer.toString(totalTimeElapsed - (originalBT - current.burstTime)) + " " + current.index + " " + (originalBT - current.burstTime) + "X\n";
+                    if (arrived.isEmpty() && processes.isEmpty()) {
+                        break;
+                    } else if (arrived.isEmpty()) {
+                        current = null;
                     } else {
-                        blocks = blocks + currTime + " " + p.index + " " + (q.arrivalTime - currTime) + "\n";
-                        p.setBurstTime(p.burstTime - (q.arrivalTime - currTime));
-                        currTime = q.arrivalTime;
-                        p = q;
-                        process.remove(q);
-                        process.add(0, p);
+                        setCurrentProcess();
+                        hasBeenAdded = false;
+                    }
+                } else {
+                    if (hasBeenAdded) {
+                        if (current.burstTime > arrived.get(0).burstTime) {
+                            blocks += Integer.toString(totalTimeElapsed - (originalBT - current.burstTime)) + " " + current.index + " " + (originalBT - current.burstTime) + "\n";
+                            arrived.add(current);
+                            setCurrentProcess();
+                            Collections.sort(arrived, Process.burstTimeCompare);
+                        } else {
+                            --current.burstTime;
+                        }
+                        hasBeenAdded = false;
+                    } else {
+                        --current.burstTime;
                     }
 
-                } else {
-                    blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
-                    currTime = currTime + p.burstTime;
-                    process.remove(p);
-                    p = q;
-                    process.remove(q);
-                    process.add(0, p);
                 }
+<<<<<<< HEAD
             } else {
                 blocks = blocks + currTime + " " + p.index + " " + p.burstTime + "X" + "\n";
                 currTime = currTime + p.burstTime;
                 process.remove(p);
+=======
+            } else if (hasBeenAdded) {
+                setCurrentProcess();
+                hasBeenAdded = false;
+>>>>>>> 8a95d61eb2644a9d36d68588fc80e645d2a67dd4
             }
+            ++totalTimeElapsed;
 
-            if (process.isEmpty()) {
-                break;
-
-            }
 
         }
+    }
+
+    //Collections.sort(process, Process.);
+    public void setCurrentProcess() {
+        current = arrived.get(0);
+        originalBT = current.burstTime;
+        arrived.remove(0);
+        --current.burstTime;
     }
 
     //Collections.sort(process, Process.);
